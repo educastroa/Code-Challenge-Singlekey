@@ -1,37 +1,116 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class='container mt-5'>
-  <form method='POST'>
-    <div class='text-center'>
-      <h1>SingleKey</h1>
+{% load static %}
+
+<main class="w-100">
+  <nav class='sticky-top shadow p-3 px-5 bg-light'>
+    <div class='d-flex justify-content-between align-items-center'>
+      <img class='ed-logo' src='{% static 'assets/singlekey_logo.png' %}'>
+      <button type="submit" class="btn btn-outline-info">Log in</button>
     </div>
-    <div class='row mt-3'>
-      <div class='col'>
-        <label>Name</label><br>
-        <input name='name'>
+  </nav>
+
+  <div class="w-100 w-md-90 mx-auto d-flex flex-row flex-wrap mt-md-4 ed-content__wrapper">
+    <div class='d-md-none w-100 ed-gradient'>
+      <div class='w-75 mx-auto py-4 text-white'>
+        <h1 class='h3'>Good morning, Alex</h1>
+        <p>Here is a quick summary of your activity so far. If you have any questions about your report feel free to
+          book a call with us.</p>
+        <button type="button" class="btn btn-outline-light">Book a call</button>
       </div>
-      <div class='col'>
-        <label>Email</label><br>
-        <input name='email'>
-      </div>
     </div>
-    <br>
-    <br>
-    {% csrf_token %}
-    <div class='text-center'>
-      <button type='supmit' class='btn btn-primary'>Submit</button>
-    </div>
-  </form>
-  {% if results %}
-  <div class='w-100 text-center mt-5'>
-    <h3>Previous submissions</h3>
-      {% for i in results %}
-        <div class='text-left mb-3 p-4 card'>
-          <b>{{ i.name }}</b><br>
-          <b>{{ i.email }}</b>
+
+    <div class="w-100 w-md-70 mx-auto p-4 pl-md-0">
+      <h1 class="h3 font-weight-bold w-100">Submit information</h1>
+
+      <form class='w-100' method='POST'>
+        <div class="form-group">
+          <label for="exampleInputPassword1" class="font-weight-bold">Applicant name</label>
+          <input name="name" class="form-control col-form-label-lg" id="exampleInputPassword1"
+            placeholder="Applicant name">
         </div>
-      {% endfor %}
-    {% endif %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input name="email" class="form-control col-form-label-lg" id="exampleInputEmail1"
+            aria-describedby="emailHelp" placeholder="Email address">
+          {% csrf_token %}
+        </div>
+        <button type="submit" class="ed-button ed-button__primary">Submit</button>
+      </form>
+
+      {% if results %}
+      <hr class="mx-auto my-4 ed-separator">
+
+      <table class="table d-none d-sm-table ed-shadow rounded">
+        <thead class='w-100'>
+          <tr class='w-100 row'>
+            <th scope="col" class="border-0 col-5">Applicant</th>
+            <th scope="col" class="border-0 col-5">Email</th>
+            <th scope="col" class="border-0 col-2">Status</th>
+          </tr>
+        </thead>
+        <tbody class='w-100'>
+          {% for i in results %}
+          <tr class='w-100 row'>
+            <td class='col-5'>
+              <i class="fas fa-user-circle"></i>
+              {{ i.name }}
+            </td>
+            <td class='col-5'>{{ i.email }}</td>
+            <td class='col-2'>{{ i.status }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="d-block d-sm-none">
+        {% for i in results %}
+        <div class="card mb-3 ed-shadow rounded">
+          <div class="px-2 py-3 row">
+            <div class='col-1'>
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <div class='col-7'>
+              <div>{{ i.name }}</div>
+              <small>{{ i.email }}</small>
+            </div>
+            <div class='col-4 text-nowrap'>
+              <span class="badge badge-success">{{ i.status }}</span>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="w-100 w-md-30 mx-auto d-flex flex-column mt-md-4 pt-md-4 pl-md-4">
+      <div class='d-none d-md-block w-100 rounded ed-gradient ed-shadow'>
+        <div class='w-75 mx-auto py-4 text-white'>
+          <h1 class='h3'>Good morning, Alex</h1>
+          <p>Here is a quick summary of your activity so far. If you have any questions about your report feel free to
+            book a call with us.</p>
+          <button type="button" class="btn btn-outline-light">Book a call</button>
+        </div>
+      </div>
+
+      <hr class="d-md-none mx-auto my-1 ed-separator">
+
+      <div class='w-100 rounded ed-shadow ed-shadow-special'>
+        <div class='w-75 mx-auto py-4'>
+          <h1 class='h3'>Rent Guarantee</h1>
+          <p>Never miss a rent payment! Learn how our Rent Guarantee Program projects your property and rental income so
+            you can take out of renting.</p>
+          <button type="button" class="ed-button ed-button__outline">Start now</button>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
+  <footer class="ed-footer__wrapper fixed-bottom py-3">
+    <div class="container">
+      <span class="text-white">&#169; All rights reserved SingleKey 2021</span>
+    </div>
+  </footer>
+</main>
 {% endblock %}
